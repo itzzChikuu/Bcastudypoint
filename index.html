@@ -176,19 +176,23 @@
 const subjectsBySem = {
   sem1: [
     { value: "dm", text: "Discrete Mathematics" },
-    { value: "ds", text: "Data Structures" }
-  ],
+    { value: "cf", text: "Computer Fundamental" },
+    { value: "os", text: "Operating System"}
+    ],
   sem2: [
-    { value: "java", text: "Java" },
-    { value: "python", text: "Python" }
+    { value: "de", text: "Digital Electronics" },
+    { value: "c", text: "Programming in C++" },
+    { value: "ds", text: "Data Structure"}
   ],
   sem3: [
-    { value: "dbms", text: "DBMS" },
-    { value: "os", text: "Operating System" }
+    { value: "rdbms", text: "RDBMS" },
+    { value: "se", text: "Software Engineering" },
+    { value:"java", text: "Programming in Java"}
   ],
   sem4: [
-    { value: "cn", text: "Computer Networks" },
-    { value: "se", text: "Software Engineering" }
+    { value: "toc", text: "Theory of Computation " },
+    { value: "wt", text: "Web Technology" },
+    { value: "python", text: "Python Programming"}
   ]
 };
 
@@ -220,45 +224,101 @@ const pdfLinks = {
         download: "https://drive.google.com/uc?export=download&id=1_V0rga-Lp65RB3nZIRI_Ao5GdWwxtQAi"
       }
     },
-    ds: {
+    cf: {
       notes: {
         view: "https://drive.google.com/file/d/FILE_ID/preview",
         download: "https://drive.google.com/uc?export=download&id=FILE_ID"
+      }
+    },
+    os: {
+      notes: {
+        view: "link ",
+        download: "link"
       }
     }
   },
 
   sem2: {
-    java: {
+    de: {
       notes: {
         view: "https://drive.google.com/file/d/1_V0rga-Lp65RB3nZIRI_Ao5GdWwxtQAi/view?usp=sharing/preview",
         download: "https://drive.google.com/uc?export=download&id=https://drive.google.com/file/d/1_V0rga-Lp65RB3nZIRI_Ao5GdWwxtQAi/view?usp=sharing"
       }
     },
-    python: {
+    c: {
       notes: {
         view: "https://drive.google.com/file/d/FILE_ID/preview",
         download: "https://drive.google.com/uc?export=download&id=FILE_ID"
+      }
+    },
+    ds: {
+      notes: {
+        view: "link",
+        download: "link"
+      }
+    }
+  },
+  sem3: {
+    rdbms: {
+      notes: {
+        view: "https://drive.google.com/file/d/1_V0rga-Lp65RB3nZIRI_Ao5GdWwxtQAi/view?usp=sharing/preview",
+        download: "https://drive.google.com/uc?export=download&id=https://drive.google.com/file/d/1_V0rga-Lp65RB3nZIRI_Ao5GdWwxtQAi/view?usp=sharing"
+      }
+    },
+    se: {
+      notes: {
+        view: "https://drive.google.com/file/d/FILE_ID/preview",
+        download: "https://drive.google.com/uc?export=download&id=FILE_ID"
+      }
+    },
+    java: {
+      notes: {
+        view: "link",
+        download: "link"
+      }
+    }
+  },
+  sem4: {
+    toc: {
+      notes: {
+        view: "https://drive.google.com/file/d/1_V0rga-Lp65RB3nZIRI_Ao5GdWwxtQAi/view?usp=sharing/preview",
+        download: "https://drive.google.com/uc?export=download&id=https://drive.google.com/file/d/1_V0rga-Lp65RB3nZIRI_Ao5GdWwxtQAi/view?usp=sharing"
+      }
+    },
+    wt: {
+      notes: {
+        view: "https://drive.google.com/file/d/FILE_ID/preview",
+        download: "https://drive.google.com/uc?export=download&id=FILE_ID"
+      }
+    },
+    python: {
+      notes: {
+        view: "link",
+        download: "link"
       }
     }
   }
 };
   const youtubeLinks = {
   sem1: {
-    dm: "https://www.youtube.com/playlist?list=PL9ooVrP1hQOG6DQnOD6ujdCEwqPpGz8wC",
-    ds: "https://youtu.be/qNGyI95E5AE?si=-szv0TFt7Jk7WC32"
+    dm: "https://youtu.be/p2b2Vb-cYCs?si=KYjQQtqi79GQY5gT",
+    cf: "https://youtu.be/qukBBTS3RII?si=7G3csZTjO7-_wLAu",
+    os: "https://www.youtube.com/live/By6lWjiPpVI?si=09_uzuWZUO9b8Q4t"
   },
   sem2: {
-    java: "https://www.youtube.com/playlist?list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5",
-    python: "https://www.youtube.com/playlist?list=PLsyeobzWxl7poL9JTVyndKe62ieoN-MZ3"
+    de: "https://youtu.be/DBTna2ydmC0?si=CkmGP1WR5a_TEVo6",
+    c:"https://youtu.be/Cyha_W_gPdg?si=3Fglq9-yeiQa1oo6",
+    ds: "https://youtu.be/qNGyI95E5AE?si=-szv0TFt7Jk7WC32"
   },
   sem3: {
-    dbms: "https://www.youtube.com/playlist?list=PLsyeobzWxl7r2ZX1fl-7CKnayxHJA_1ol",
-    os: "https://www.youtube.com/playlist?list=PLsyeobzWxl7rXfZ8u6Y6r1n6XKJgZPp5k"
+    rdbms: "https://youtu.be/6Iu45VZGQDk?si=uf-9H0s6SLIJWyFl",
+    se: "https://youtu.be/aa8D33B6yv8?si=G0tf45oyECXwJclN",
+    java: "https://youtu.be/yRpLlJmRo2w?si=RltbONYtu7yqoqzu"
   },
   sem4: {
-    cn: "https://www.youtube.com/playlist?list=PLsyeobzWxl7r9XWm0MxtpUJr1mM0k8pQZ",
-    se: "https://www.youtube.com/playlist?list=PLsyeobzWxl7o8n0f5pCjHf5YtR8aYjK6K"
+    toc: "https://youtu.be/iD6u_2iNnu0?si=7hPzH70nnPNs0HnZ",
+    wt: "https://youtu.be/l1EssrLxt7E?si=ql0r86PhbIiEOzOd",
+    python: "https://youtu.be/t2_Q2BRzeEE?si=Sjki6jFvfiQLnOya"
   }
 };
 
@@ -306,6 +366,7 @@ function openYouTube() {
 
 </body>
 </html>
+
 
 
 

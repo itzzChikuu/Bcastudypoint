@@ -224,10 +224,11 @@ const pdfLinks = {
         download: "https://drive.google.com/uc?export=download&id="
       }
     },
-    syllabus:{
+    syllabus: {
       view: "https://drive.google.com/file/d/1MCqu4yzaSrmI46SEwOYeJtyQfVkXIjoZ/view?usp=sharing/preview",
       download: "https://drive.google.com/uc?export=download&id=1MCqu4yzaSrmI46SEwOYeJtyQfVkXIjoZ"
     }
+  }
   },
     cf: {
       notes: {
@@ -349,15 +350,13 @@ function getPDFPath() {
 }
 
 function openPDF() {
-  const link =
-    pdfLinks[semester.value][subject.value][resource.value].view;
+  const link = pdfLinks[semester.value][subject.value][resource.value].view;
   window.open(link, "_blank");
 }
 
 
 function downloadPDF() {
-  const link =
-    pdfLinks[semester.value][subject.value][resource.value].download;
+  const link = pdfLinks[semester.value][subject.value][resource.value].download;
   window.open(link, "_blank");
 }
   
@@ -379,3 +378,5 @@ function openYouTube() {
 
 
 
+
+ 

@@ -114,16 +114,17 @@
 
 <body>
   <script>
-  // Login check
+
   if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.replace("https://itzzchikuu.github.io/Bcastudypoint/");
+    window.location.replace("index.html");
   }
 
-  // Logout function
   function logout() {
     localStorage.removeItem("loggedIn");
-    window.location.replace("https://itzzchikuu.github.io/Bcastudypoint/");
+    window.location.replace("index.html");
   }
+
+
 </script>
 
 
@@ -305,6 +306,7 @@ function openYouTube() {
 
 </body>
 </html>
+
 
 
 

@@ -113,19 +113,19 @@
 </head>
 
 <body>
-  <script>
-
+<script>
+  // 🔐 Dashboard protection
   if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.replace("index.html");
+    window.location.replace("https://itzzchikuu.github.io/studypoint/");
   }
 
+  // 🚪 Logout
   function logout() {
     localStorage.removeItem("loggedIn");
-    window.location.replace("index.html");
+    window.location.replace("https://itzzchikuu.github.io/studypoint/");
   }
-
-
 </script>
+
 
 
   <!-- BACKGROUND VIDEO -->
@@ -306,6 +306,7 @@ function openYouTube() {
 
 </body>
 </html>
+
 
 
 

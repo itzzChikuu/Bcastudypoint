@@ -395,6 +395,7 @@ wt: {
       download: "https://drive.google.com/uc?export=download&id=PAPER_ID"
     }
   }
+  }
 };
   const youtubeLinks = {
   sem1: {
@@ -426,12 +427,14 @@ resource.addEventListener("change", checkAll);
 
 function checkAll() {
   if (semester.value && subject.value && resource.value) {
-    actions.style.display = "block";
 
-    // Agar Video Lectures select ho
     if (resource.value === "videos") {
+      actions.style.display = "none";
       openYouTube();
+      return;
     }
+
+    actions.style.display = "block";
   }
 }
 
@@ -441,15 +444,23 @@ function getPDFPath() {
 }
 
 function openPDF() {
-  const link = pdfLinks[semester.value][subject.value][resource.value].view;
-  window.open(link, "_blank");
+  try {
+    const link = pdfLinks[semester.value][subject.value][resource.value].view;
+    window.open(link, "_blank");
+  } catch {
+    alert("📄 Ye PDF abhi available nahi hai");
+  }
 }
-
 
 function downloadPDF() {
-  const link = pdfLinks[semester.value][subject.value][resource.value].download;
-  window.open(link, "_blank");
+  try {
+    const link = pdfLinks[semester.value][subject.value][resource.value].download;
+    window.open(link, "_blank");
+  } catch {
+    alert("⬇️ Download abhi available nahi hai");
+  }
 }
+
   
 function openYouTube() {
   const link = youtubeLinks[semester.value][subject.value];
@@ -471,6 +482,7 @@ function openYouTube() {
 
 
  
+
 
 
 

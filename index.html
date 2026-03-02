@@ -1,357 +1,498 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>BCAStudyPoint Dashboard</title>
+  <meta charset="UTF-8">
+  <title>BCAStudyPoint Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+    body {
+   color: white;
+      min-height: 100vh;
+    }
+
+    /* VIDEO BACKGROUND */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    h4 {
+      padding: 20px 40px;
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    h1 {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      color: #e2ce5a;
+      margin-top: 8px;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px auto 20px;
+      flex-wrap: wrap;
+    }
+
+    .filters select {
+      padding: 14px 22px;
+      border-radius: 20px;
+      border: none;
+      background: rgba(5,44,218,0.9);
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(56,189,248,0.6);
+      outline: none;
+    }
+
+    /* ACTION BUTTONS */
+    .actions {
+      display: none;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .actions button {
+      padding: 14px 30px;
+      margin: 10px;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(56,189,248,0.7);
+      transition: transform 0.2s;
+    }
+
+    .actions button:hover {
+      transform: scale(1.08);
+    }
+
+.logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  padding: 10px 22px;
+  border-radius: 20px;
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 0 15px rgba(239,68,68,0.6);
+}
+.logout-btn:hover {
+  opacity: 0.9;
 }
 
-body{
-color:white;
-min-height:100vh;
-}
 
-/* BACKGROUND VIDEO */
-#bg-video{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:-2;
-}
-
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.65);
-z-index:-1;
-}
-
-h4{
-padding:20px 40px;
-color:#38bdf8;
-}
-
-h1{
-text-align:center;
-margin-top:20px;
-}
-
-p{
-text-align:center;
-color:#e2ce5a;
-margin-top:8px;
-}
-
-/* HERO CARDS */
-.hero-cards{
-display:flex;
-justify-content:center;
-gap:25px;
-flex-wrap:wrap;
-margin-top:35px;
-}
-
-.card{
-background:rgba(255,255,255,.08);
-padding:25px 40px;
-border-radius:18px;
-backdrop-filter:blur(10px);
-box-shadow:0 0 20px rgba(56,189,248,.4);
-}
-
-/* FILTERS */
-.filters{
-display:flex;
-justify-content:center;
-gap:20px;
-margin:50px auto 20px;
-flex-wrap:wrap;
-}
-
-.filters select{
-padding:14px 22px;
-border-radius:20px;
-border:none;
-background:rgba(5,44,218,.9);
-color:#fff;
-box-shadow:0 0 18px rgba(56,189,248,.6);
-}
-
-/* ACTION BUTTONS */
-.actions{
-display:none;
-text-align:center;
-margin-top:30px;
-}
-
-.actions button{
-padding:14px 30px;
-margin:10px;
-border-radius:30px;
-border:none;
-background:linear-gradient(135deg,#2563eb,#38bdf8);
-color:white;
-cursor:pointer;
-box-shadow:0 0 22px rgba(56,189,248,.7);
-}
-
-.actions button:hover{
-transform:scale(1.08);
-}
-
-/* POPULAR SUBJECTS */
-.section-title{
-text-align:center;
-margin-top:70px;
-}
-
-.popular{
-display:flex;
-justify-content:center;
-gap:20px;
-margin-top:25px;
-flex-wrap:wrap;
-}
-
-.pop-card{
-padding:20px 35px;
-border-radius:15px;
-background:linear-gradient(135deg,#1e3a8a,#38bdf8);
-box-shadow:0 0 20px rgba(56,189,248,.5);
-}
-
-/* STATS */
-.stats{
-display:flex;
-justify-content:center;
-gap:40px;
-margin:70px 0;
-flex-wrap:wrap;
-}
-
-.stats div{
-text-align:center;
-padding:25px;
-background:rgba(0,0,0,.4);
-border-radius:15px;
-}
-
-/* TIPS */
-.tips{
-width:60%;
-margin:auto;
-line-height:2;
-text-align:center;
-}
-
-/* LOGOUT */
-.logout-btn{
-position:absolute;
-top:20px;
-right:30px;
-padding:10px 22px;
-border-radius:20px;
-border:none;
-background:linear-gradient(135deg,#ef4444,#f97316);
-color:white;
-cursor:pointer;
-}
-
-/* FOOTER */
-footer{
-text-align:center;
-padding:30px;
-background:rgba(0,0,0,.6);
-margin-top:80px;
-}
-
-</style>
+  </style>
 </head>
 
 <body>
-
 <script>
-if(localStorage.getItem("loggedIn")!=="true"){
-window.location.replace("https://itzzchikuu.github.io/studypoint/");
-}
+  // 🔐 Dashboard protection
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.replace("https://itzzchikuu.github.io/studypoint/");
+  }
 
-function logout(){
-localStorage.removeItem("loggedIn");
-window.location.replace("https://itzzchikuu.github.io/studypoint/");
-}
+  // 🚪 Logout
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.replace("https://itzzchikuu.github.io/studypoint/");
+  }
 </script>
 
-<!-- VIDEO -->
-<video autoplay muted loop playsinline id="bg-video">
-<source src="gridmotion.mp4" type="video/mp4">
-</video>
 
-<div class="overlay"></div>
 
-<h4>🎓 BCAStudyPoint</h4>
+  <!-- BACKGROUND VIDEO -->
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="gridmotion.mp4" type="video/mp4">
+  </video>
+
+  <div class="overlay"></div>
+
+  <h4>🎓 BCAStudyPoint</h4>
 <button class="logout-btn" onclick="logout()">Logout</button>
 
-<h1>All BCA Resources. One Smart Hub.</h1>
-<p>Semester-wise • Subject-wise • Free PDFs</p>
 
-<!-- HERO CARDS -->
-<div class="hero-cards">
-<div class="card">📚 200+ Notes</div>
-<div class="card">🎥 Video Lectures</div>
-<div class="card">📄 Previous Papers</div>
-<div class="card">⚡ Quick Access</div>
-</div>
+  <h1>All BCA Resources. One Smart Hub.</h1>
+  <p>Semester-wise • Subject-wise • Free PDFs</p>
 
-<!-- FILTERS -->
-<div class="filters">
-<select id="semester">
-<option value="">Select Semester</option>
-<option value="sem1">Semester 1</option>
-<option value="sem2">Semester 2</option>
-<option value="sem3">Semester 3</option>
-<option value="sem4">Semester 4</option>
-</select>
+  <!-- DROPDOWNS -->
+  <div class="filters">
+    <select id="semester">
+      <option value="">Select Semester</option>
+      <option value="sem1">Semester 1</option>
+      <option value="sem2">Semester 2</option>
+      <option value="sem3">Semester 3</option>
+      <option value="sem4">Semester 4</option>
+    </select>
 
-<select id="subject">
-<option value="">Select Subject</option>
-</select>
+    <select id="subject">
+      <option value="">Select Subject</option>
+    </select>
 
-<select id="resource">
-<option value="">Select Resource</option>
-<option value="notes">Notes</option>
-<option value="syllabus">Syllabus</option>
-<option value="papers">Past Papers</option>
-<option value="videos">Video Lectures</option>
-</select>
-</div>
+    <select id="resource">
+      <option value="">Select Resource</option>
+      <option value="notes">Notes</option>
+      <option value="syllabus">Syllabus</option>
+      <option value="papers">Past Papers</option>
+      <option value="videos">Video Lectures</option> <!-- NEW -->
+    </select>
+  </div>
 
-<div class="actions" id="actions">
-<button onclick="openPDF()">📖 Open PDF</button>
-<button onclick="downloadPDF()">⬇ Download PDF</button>
-</div>
-
-<!-- POPULAR -->
-<h2 class="section-title">🔥 Popular Subjects</h2>
-<div class="popular">
-<div class="pop-card">Java Programming</div>
-<div class="pop-card">Data Structure</div>
-<div class="pop-card">Python Programming</div>
-</div>
-
-<!-- STATS -->
-<div class="stats">
-<div>👨‍🎓 Students<br><b>1200+</b></div>
-<div>📘 Subjects<br><b>12</b></div>
-<div>📄 PDFs<br><b>300+</b></div>
-<div>🎥 Videos<br><b>80+</b></div>
-</div>
-
-<!-- TIPS -->
-<h2 class="section-title">💡 Study Tips</h2>
-<ul class="tips">
-<li>✔ Daily revision karo</li>
-<li>✔ Previous papers solve karo</li>
-<li>✔ Concepts samjho ratta nahi</li>
-</ul>
-
-<footer>
-<p>© 2026 BCAStudyPoint | Made for Students ❤️</p>
-</footer>
+  <!-- ACTION BUTTONS -->
+  <div class="actions" id="actions">
+    <button onclick="openPDF()">📖 Open PDF</button>
+    <button onclick="downloadPDF()">⬇ Download PDF</button>
+  </div>
 
 <script>
-
-/* SUBJECT DATA */
-const subjectsBySem={
-sem1:[
-{value:"dm",text:"Discrete Mathematics"},
-{value:"cf",text:"Computer Fundamental"},
-{value:"os",text:"Operating System"}
-],
-sem2:[
-{value:"de",text:"Digital Electronics"},
-{value:"c",text:"Programming in C++"},
-{value:"ds",text:"Data Structure"}
-],
-sem3:[
-{value:"rdbms",text:"RDBMS"},
-{value:"se",text:"Software Engineering"},
-{value:"java",text:"Programming in Java"}
-],
-sem4:[
-{value:"toc",text:"Theory of Computation"},
-{value:"wt",text:"Web Technology"},
-{value:"python",text:"Python Programming"}
-]
+/* SEM → SUBJECT MAPPING */
+const subjectsBySem = {
+  sem1: [
+    { value: "dm", text: "Discrete Mathematics" },
+    { value: "cf", text: "Computer Fundamental" },
+    { value: "os", text: "Operating System"}
+    ],
+  sem2: [
+    { value: "de", text: "Digital Electronics" },
+    { value: "c", text: "Programming in C++" },
+    { value: "ds", text: "Data Structure"}
+  ],
+  sem3: [
+    { value: "rdbms", text: "RDBMS" },
+    { value: "se", text: "Software Engineering" },
+    { value:"java", text: "Programming in Java"}
+  ],
+  sem4: [
+    { value: "toc", text: "Theory of Computation " },
+    { value: "wt", text: "Web Technology" },
+    { value: "python", text: "Python Programming"}
+  ]
 };
 
-const semester=document.getElementById("semester");
-const subject=document.getElementById("subject");
-const resource=document.getElementById("resource");
-const actions=document.getElementById("actions");
+const semester = document.getElementById("semester");
+const subject = document.getElementById("subject");
+const resource = document.getElementById("resource");
+const actions = document.getElementById("actions");
 
-semester.addEventListener("change",()=>{
-subject.innerHTML='<option value="">Select Subject</option>';
-actions.style.display="none";
+/* LOAD SUBJECTS */
+semester.addEventListener("change", () => {
+  subject.innerHTML = '<option value="">Select Subject</option>';
+  resource.value = "";
+  actions.style.display = "none";
 
-if(!semester.value) return;
+  if (!semester.value) return;
 
-subjectsBySem[semester.value].forEach(s=>{
-const opt=document.createElement("option");
-opt.value=s.value;
-opt.textContent=s.text;
-subject.appendChild(opt);
+    subjectsBySem[semester.value].forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s.value;
+    opt.textContent = s.text;
+    subject.appendChild(opt);
+  });
 });
-});
+const pdfLinks = {
+ sem1: {
+  dm: {
+    notes: {
+      view: "https://drive.google.com/file/d/1a5EIebHcz_ESNTsf3aiF0ldQo4mGivIE/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1a5EIebHcz_ESNTsf3aiF0ldQo4mGivIE"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1MCqu4yzaSrmI46SEwOYeJtyQfVkXIjoZ/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1MCqu4yzaSrmI46SEwOYeJtyQfVkXIjoZ"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1KCD0-J1gcjsmX7FWvgNhHZG7643SOhzI/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1KCD0-J1gcjsmX7FWvgNhHZG7643SOhzI"
+    }
+  },
+  cf: {
+    notes: {
+      view: "https://drive.google.com/file/d/1wQwN_RdxZG_NAnlK2NFPbhpEtfW8h_G-/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1wQwN_RdxZG_NAnlK2NFPbhpEtfW8h_G-"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1CglwVPiS4kXHtlvrddKYEEoDzh-OsC-h/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1CglwVPiS4kXHtlvrddKYEEoDzh-OsC-h"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1HjdPbuopEREzzBD3lGOwbldAh_PVpBRu/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1HjdPbuopEREzzBD3lGOwbldAh_PVpBRu"
+    }
+  },
+  os: {
+    notes: {
+      view: "https://drive.google.com/file/d/1BLqwVCnGOIrlk9OtsHOHcCi0vTtF6Uj1/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1BLqwVCnGOIrlk9OtsHOHcCi0vTtF6Uj1"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1VfOkvxHXc0XK9IESfeJ_Sq83yb2HFGUJ/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1VfOkvxHXc0XK9IESfeJ_Sq83yb2HFGUJ"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1GzrCk7XKNy2Saib-xrhqbswXrnZKKAUa/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1GzrCk7XKNy2Saib-xrhqbswXrnZKKAUa"
+    }
+  }
+},
+  sem2: {
+  de: {
+    notes: {
+      view: "https://drive.google.com/file/d/1IQNOqW_Pl6_CpMO4VZJJGUGdxtUPKHVR/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1IQNOqW_Pl6_CpMO4VZJJGUGdxtUPKHVR"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/14JF3II7WsatUOVPpb8293bEhg1SaIeaB/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=14JF3II7WsatUOVPpb8293bEhg1SaIeaB"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1GU6mGig-V1PxyvWff7-rVxP-HL6nP4q0/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1GU6mGig-V1PxyvWff7-rVxP-HL6nP4q0"
+    }
+  },
+  c: {
+    notes: {
+      view: "https://drive.google.com/file/d/1p0H6nLrgTcb_O60MnyhmadIQBDdUlYIU/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1p0H6nLrgTcb_O60MnyhmadIQBDdUlYIU"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1M11gUjNIz_eF8XHTBTRTADeSfUtFqH5_/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=SM11gUjNIz_eF8XHTBTRTADeSfUtFqH5_"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1iYrR9ZU6qVfDBgBJRhYrQ7VuOFbFlzYT/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1iYrR9ZU6qVfDBgBJRhYrQ7VuOFbFlzYT"
+    }
+  },
+  ds: {
+    notes: {
+      view: "https://drive.google.com/file/d/1BavYxr-KzUv8tHhDu6LDdc09AqMmhIKE/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1BavYxr-KzUv8tHhDu6LDdc09AqMmhIKE"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1xybUwfBSgD6ruXCnB0lTnGM8NN88oBwA/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1xybUwfBSgD6ruXCnB0lTnGM8NN88oBwA"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/12XxE7_ZVQr__7TBlMHFFe1L12xGMkK4o/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=12XxE7_ZVQr__7TBlMHFFe1L12xGMkK4o"
+    }
+  }
+},
+  sem3: {
+ rdbms: {
+    notes: {
+      view: "https://drive.google.com/file/d/17bQaIytvpnibFRdjDIvCk7_ZruCiftXK/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=17bQaIytvpnibFRdjDIvCk7_ZruCiftXK"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1a-jzBPZZaH9syZ5EstRW8eW_apXOdrul/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1a-jzBPZZaH9syZ5EstRW8eW_apXOdrul"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1OFmntaW-XvRcUbXIp-_SLt9F4XSmMfPZ/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1OFmntaW-XvRcUbXIp-_SLt9F4XSmMfPZ"
+    }
+  },
+se: {
+    notes: {
+      view: "https://drive.google.com/file/d/1YJI-ldtJ0pJ5nBFqqvWD0zlgDWbpPhqu/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1YJI-ldtJ0pJ5nBFqqvWD0zlgDWbpPhqu"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/16KhWGP-XLmkSQmweGanmcGuUPRmX0cNI/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=16KhWGP-XLmkSQmweGanmcGuUPRmX0cNI"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1EsJVBcZPQLJXhGT4qm-BYfw2AYThFy3B/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1EsJVBcZPQLJXhGT4qm-BYfw2AYThFy3B"
+    }
+  },
 
-subject.addEventListener("change",checkAll);
-resource.addEventListener("change",checkAll);
+ java: {
+    notes: {
+      view: "https://drive.google.com/file/d/15dISO-CH3X1xlpZKUAlgedk_CuIbf4ua/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=15dISO-CH3X1xlpZKUAlgedk_CuIbf4ua"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1_Tk-BI49SQTq2osn7z0-yLdVdvz_krep/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1_Tk-BI49SQTq2osn7z0-yLdVdvz_krep"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/1gjkCNAeK-az96CVcVFbUhHfiNfMyvTU8/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1gjkCNAeK-az96CVcVFbUhHfiNfMyvTU8"
+    }
+  }
 
-function checkAll(){
-if(semester.value && subject.value && resource.value){
-if(resource.value==="videos"){
-openYouTube();
-actions.style.display="none";
-return;
-}
-actions.style.display="block";
-}
-}
+  },
+  sem4: {
+    toc: {
+    notes: {
+      view: "https://drive.google.com/file/d/1e6NADynxVR4AqMYP8CEU5eNcXATv53rE/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1e6NADynxVR4AqMYP8CEU5eNcXATv53rE"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1mGXUCdHXnF1urjFZICCGKh_b6ygjf9tV/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1mGXUCdHXnF1urjFZICCGKh_b6ygjf9tV"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/PAPER_ID/preview",
+      download: "https://drive.google.com/uc?export=download&id=PAPER_ID"
+    }
+  },
 
-function openPDF(){
-alert("PDF Open Logic Same Rahega (Tumhara Drive Links)");
-}
-
-function downloadPDF(){
-alert("Download Logic Same Rahega");
-}
-
-const youtubeLinks={
-sem1:{dm:"https://youtu.be/p2b2Vb-cYCs",cf:"https://youtu.be/qukBBTS3RII",os:"https://youtu.be/By6lWjiPpVI"},
-sem2:{de:"https://youtu.be/DBTna2ydmC0",c:"https://youtu.be/Cyha_W_gPdg",ds:"https://youtu.be/qNGyI95E5AE"},
-sem3:{rdbms:"https://youtu.be/6Iu45VZGQDk",se:"https://youtu.be/aa8D33B6yv8",java:"https://youtu.be/yRpLlJmRo2w"},
-sem4:{toc:"https://youtu.be/iD6u_2iNnu0",wt:"https://youtu.be/l1EssrLxt7E",python:"https://youtu.be/t2_Q2BRzeEE"}
+wt: {
+    notes: {
+      view: " https://drive.google.com/file/d/1PraD-UShOnEh8xlsmDjNMg_EXcNlPuYh/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1PraD-UShOnEh8xlsmDjNMg_EXcNlPuYh"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/162FcV77pt1m2_SOBpd2uW00zgv8Vi-qg/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=162FcV77pt1m2_SOBpd2uW00zgv8Vi-qg"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/PAPER_ID/preview",
+      download: "https://drive.google.com/uc?export=download&id=PAPER_ID"
+    }
+  },
+    python: {
+    notes: {
+      view: "https://drive.google.com/file/d/1KErfZiW0ZU3y-qW3_Vdgyw3BS1yqDfNG/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1KErfZiW0ZU3y-qW3_Vdgyw3BS1yqDfNG"
+    },
+    syllabus: {
+      view: "https://drive.google.com/file/d/1XAmUCjx7vYws_a7UcKnrnauq_ndoirFI/view?usp=sharing/preview",
+      download: "https://drive.google.com/uc?export=download&id=1XAmUCjx7vYws_a7UcKnrnauq_ndoirFI"
+    },
+    papers: {
+      view: "https://drive.google.com/file/d/PAPER_ID/preview",
+      download: "https://drive.google.com/uc?export=download&id=PAPER_ID"
+    }
+  }
+  }
+};
+  const youtubeLinks = {
+  sem1: {
+    dm: "https://youtu.be/p2b2Vb-cYCs?si=KYjQQtqi79GQY5gT",
+    cf: "https://youtu.be/qukBBTS3RII?si=7G3csZTjO7-_wLAu",
+    os: "https://www.youtube.com/live/By6lWjiPpVI?si=09_uzuWZUO9b8Q4t"
+  },
+  sem2: {
+    de: "https://youtu.be/DBTna2ydmC0?si=CkmGP1WR5a_TEVo6",
+    c:"https://youtu.be/Cyha_W_gPdg?si=3Fglq9-yeiQa1oo6",
+    ds: "https://youtu.be/qNGyI95E5AE?si=-szv0TFt7Jk7WC32"
+  },
+  sem3: {
+    rdbms: "https://youtu.be/6Iu45VZGQDk?si=uf-9H0s6SLIJWyFl",
+    se: "https://youtu.be/aa8D33B6yv8?si=G0tf45oyECXwJclN",
+    java: "https://youtu.be/yRpLlJmRo2w?si=RltbONYtu7yqoqzu"
+  },
+  sem4: {
+    toc: "https://youtu.be/iD6u_2iNnu0?si=7hPzH70nnPNs0HnZ",
+    wt: "https://youtu.be/l1EssrLxt7E?si=ql0r86PhbIiEOzOd",
+    python: "https://youtu.be/t2_Q2BRzeEE?si=Sjki6jFvfiQLnOya"
+  }
 };
 
-function openYouTube(){
-window.open(youtubeLinks[semester.value][subject.value],"_blank");
+
+
+subject.addEventListener("change", checkAll);
+resource.addEventListener("change", checkAll);
+
+function checkAll() {
+  if (semester.value && subject.value && resource.value) {
+
+    if (resource.value === "videos") {
+      actions.style.display = "none";
+      openYouTube();
+      return;
+    }
+
+    actions.style.display = "block";
+  }
 }
+
+
+function getPDFPath() {
+  return `pdfs/${semester.value}/${subject.value}_${resource.value}.pdf`;
+}
+
+function openPDF() {
+  try {
+    const link = pdfLinks[semester.value][subject.value][resource.value].view;
+    window.open(link, "_blank");
+  } catch {
+    alert("📄 Ye PDF abhi available nahi hai");
+  }
+}
+
+function downloadPDF() {
+  try {
+    const link = pdfLinks[semester.value][subject.value][resource.value].download;
+    window.open(link, "_blank");
+  } catch {
+    alert("⬇️ Download abhi available nahi hai");
+  }
+}
+
+  
+function openYouTube() {
+  const link = youtubeLinks[semester.value][subject.value];
+  window.open(link, "_blank");
+}
+
 
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 

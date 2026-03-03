@@ -468,64 +468,9 @@ function openYouTube() {
   window.open(link, "_blank");
 }
 
-  // 🔥 Load Approved Files from Admin Panel
-function loadApprovedFromAdmin(){
-  const approved = JSON.parse(localStorage.getItem('approvedResources') || '[]');
-
-  if(approved.length === 0) return;
-
-  const dynamicSection = document.createElement("div");
-  dynamicSection.innerHTML = `
-  <h2 style="text-align:center;margin-top:60px;">📂 Admin Approved Resources</h2>
-  <div id="adminFiles" style="display:flex;flex-wrap:wrap;justify-content:center;margin-top:30px;"></div>
-  `;
-  document.body.appendChild(dynamicSection);
-
-  const container = document.getElementById("adminFiles");
-
-  approved.forEach((item,index)=>{
-    container.innerHTML += `
-      <div style="background:white;color:black;padding:20px;margin:15px;border-radius:15px;width:250px;text-align:center;">
-        <h5>${item.title}</h5>
-        <button onclick="viewAdminFile(${index})" style="margin:5px;padding:8px 15px;">View</button>
-        <button onclick="downloadAdminFile(${index})" style="margin:5px;padding:8px 15px;">Download</button>
-      </div>
-    `;
-  });
-}
-
-function base64ToBlob(base64, type) {
-  const byteCharacters = atob(base64.split(',')[1]);
-  const byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-  return new Blob([new Uint8Array(byteNumbers)], { type: type });
-}
-
-function viewAdminFile(index){
-  const approved = JSON.parse(localStorage.getItem('approvedResources') || '[]');
-  const item = approved[index];
-  const blob = base64ToBlob(item.file, item.fileType);
-  window.open(URL.createObjectURL(blob), '_blank');
-}
-
-function downloadAdminFile(index){
-  const approved = JSON.parse(localStorage.getItem('approvedResources') || '[]');
-  const item = approved[index];
-  const blob = base64ToBlob(item.file, item.fileType);
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = item.name;
-  a.click();
-}
-
-loadApprovedFromAdmin();
-
-
 </script>
 
 </body>
 </html>
+
 

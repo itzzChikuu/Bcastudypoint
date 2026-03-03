@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Approved Resources - BCAStudyPoint</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+background:#0f0c1a;
+color:white;
+font-family:Segoe UI;
+}
+.card{
+background:#1c1530;
+border:none;
+border-radius:15px;
+box-shadow:0 8px 25px rgba(123,44,191,0.3);
+}
+.btn-primary{
+background:#7b2cbf;
+border:none;
+}
+.btn-success{
+background:#9d4edd;
+border:none;
+}
+</style>
+</head>
+<body>
+
+<div class="container mt-5">
+<h2 class="text-center mb-4">📂 Admin Approved Resources</h2>
+<div class="row" id="approvedContainer"></div>
+</div>
+
+<script>
+
+function base64ToBlob(base64, type) {
+const byteCharacters = atob(base64.split(',')[1]);
+const byteNumbers = new Array(byteCharacters.length);
+for (let i = 0; i < byteCharacters.length; i++) {
+byteNumbers[i] = byteCharacters.charCodeAt(i);
+}
+return new Blob([new Uint8Array(byteNumbers)], { type: type });
+}
+
+function loadApproved(){
+const approved = JSON.parse(localStorage.getItem('approvedResources') || '[]');
+const container = document.getElementById('approvedContainer');
+
+if(approved.length === 0){
+container.innerHTML = "<p class='text-center'>No approved files yet.</p>";
+return;
+}
+
+approved.forEach((item,index)=>{
+container.innerHTML += `
+<div class="col-md-3 mb-4">
+<div class="card p-3 text-center">
+<h6>${item.title}</h6>
+
+<div class="mt-3">
+<button onclick="viewFile(${index})" class="btn btn-primary btn-sm">View</button>
+<button onclick="downloadFile(${index})" class="btn btn-success btn-sm">Download</button>
+</div>
+
+</div>
+</div>`;
+});
+}
+
+function viewFile(index){
+const approved = JSON.parse(localStorage.getItem('approvedResources') || '[]');
+const item = approved[index];
+const blob = base64ToBlob(item.file,item.fileType);
+window.open(URL.createObjectURL(blob),'_blank');
+}
+
+function downloadFile(index){
+const approved = JSON.parse(localStorage.getItem('approvedResources') || '[]');
+const item = approved[index];
+const blob = base64ToBlob(item.file,item.fileType);
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href=url;
+a.download=item.name;
+a.click();
+}
+
+loadApproved();
+
+</script>
+
+</body>
+</html>

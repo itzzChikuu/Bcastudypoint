@@ -3,90 +3,232 @@
 <head>
 <meta charset="UTF-8">
 <title>BCA Study Point</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{background:#f3f0ff}
+.sidebar{height:100vh;background:#6f42c1;color:white;padding:20px}
+.card{border-radius:15px}
+.admin{background:red;color:white;padding:3px 8px;border-radius:10px;font-size:12px}
+</style>
+
 </head>
+<body>
 
-<body class="bg-light">
+<div class="container-fluid">
+<div class="row">
 
-<div class="container mt-4">
+<div class="col-md-2 sidebar">
 
-<h3>BCA Study Point</h3>
+<h4>BCA Study Point</h4>
+<hr>
+
+<button class="btn btn-light btn-sm w-100 mb-2" onclick="showApproved()">Approved</button>
+
+<button class="btn btn-light btn-sm w-100 mb-2" onclick="showPending()">Pending (Admin)</button>
+
+<button class="btn btn-warning btn-sm w-100" onclick="adminLogin()">Admin Login</button>
+
+<div id="adminStatus" class="mt-2"></div>
+
+</div>
+
+<div class="col-md-10 p-4">
+
+<h3>Upload Notes</h3>
 
 <div class="card p-3 mb-4">
-<input type="text" id="title" class="form-control mb-2" placeholder="Title">
-<input type="text" id="link" class="form-control mb-2" placeholder="Paste Google Drive / PDF Link">
-<button onclick="submitResource()" class="btn btn-primary">Submit</button>
+
+<input id="title" class="form-control mb-2" placeholder="Title">
+
+<input id="link" class="form-control mb-2" placeholder="Google Drive / PDF Link">
+
+<button class="btn btn-primary" onclick="submitFile()">Submit For Approval</button>
+
 </div>
 
 <div class="row" id="container"></div>
 
 </div>
 
+</div>
+</div>
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
+
+apiKey: "YOUR_API_KEY",
+
+authDomain: "YOUR_PROJECT.firebaseapp.com",
+
+projectId: "YOUR_PROJECT"
+
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function submitResource(){
+let isAdmin=false;
+
+window.adminLogin=function(){
+
+const pass=prompt("Enter Admin Password");
+
+if(pass==="admin123"){
+
+isAdmin=true;
+
+document.getElementById("adminStatus").innerHTML='<span class="admin">ADMIN</span>';
+
+alert("Admin Login Success");
+
+}else{
+
+alert("Wrong Password");
+
+}
+
+}
+
+window.submitFile=async function(){
 
 const title=document.getElementById("title").value;
+
 const link=document.getElementById("link").value;
 
-if(!title || !link){
+if(!title||!link){
+
 alert("Fill all fields");
+
 return;
+
 }
 
 await addDoc(collection(db,"resources"),{
+
 title:title,
-link:link
+
+link:link,
+
+status:"pending"
+
 });
 
-alert("Submitted Successfully");
+alert("Submitted For Approval");
 
 document.getElementById("title").value="";
 document.getElementById("link").value="";
 
-loadResources();
-
 }
 
-async function loadResources(){
+window.showApproved=async function(){
 
 const container=document.getElementById("container");
+
 container.innerHTML="";
 
 const snapshot=await getDocs(collection(db,"resources"));
 
-snapshot.forEach(doc=>{
+snapshot.forEach(docSnap=>{
 
-const data=doc.data();
+const data=docSnap.data();
+
+if(data.status==="approved"){
 
 container.innerHTML+=`
+
 <div class="col-md-3 mb-3">
+
 <div class="card p-3">
+
 <h6>${data.title}</h6>
+
 <a href="${data.link}" target="_blank" class="btn btn-primary btn-sm mt-2">View</a>
+
 </div>
-</div>
-`;
+
+</div>`;
+
+}
 
 });
 
 }
 
-loadResources();
+window.showPending=async function(){
 
-window.submitResource=submitResource;
+if(!isAdmin){
+
+alert("Admin Only");
+
+return;
+
+}
+
+const container=document.getElementById("container");
+
+container.innerHTML="";
+
+const snapshot=await getDocs(collection(db,"resources"));
+
+snapshot.forEach(docSnap=>{
+
+const data=docSnap.data();
+
+if(data.status==="pending"){
+
+container.innerHTML+=`
+
+<div class="col-md-4 mb-3">
+
+<div class="card p-3">
+
+<h6>${data.title}</h6>
+
+<button onclick="approve('${docSnap.id}')" class="btn btn-success btn-sm mt-2">Approve</button>
+
+<button onclick="reject('${docSnap.id}')" class="btn btn-danger btn-sm mt-2">Reject</button>
+
+</div>
+
+</div>`;
+
+}
+
+});
+
+}
+
+window.approve=async function(id){
+
+await updateDoc(doc(db,"resources",id),{
+
+status:"approved"
+
+});
+
+alert("Approved");
+
+showPending();
+
+}
+
+window.reject=async function(id){
+
+await deleteDoc(doc(db,"resources",id));
+
+alert("Rejected");
+
+showPending();
+
+}
+
+showApproved();
 
 </script>
 

@@ -2,187 +2,93 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BCA Study Point</title>
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-body{background:#f3f0ff;font-family:sans-serif}
-.sidebar{height:100vh;background:#6f42c1;color:white;padding:20px}
-.card{border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.1)}
-.admin-badge{background:red;color:white;padding:4px 10px;border-radius:10px;font-size:12px}
-</style>
 </head>
-<body>
 
-<div class="container-fluid">
-<div class="row">
+<body class="bg-light">
 
-<div class="col-md-2 sidebar">
-<h4>BCA Study Point</h4>
-<hr>
-<button class="btn btn-light btn-sm mb-2 w-100" onclick="showApproved()">Approved</button>
-<button class="btn btn-light btn-sm mb-2 w-100" onclick="showPending()">Pending (Admin)</button>
-<button class="btn btn-warning btn-sm w-100" onclick="adminLogin()">Admin Login</button>
-<div id="adminStatus" class="mt-2"></div>
-</div>
+<div class="container mt-4">
 
-<div class="col-md-10 p-4">
+<h3>BCA Study Point</h3>
 
-<h3>Upload Resource</h3>
-
-<div class="card p-4 mb-4">
-<input type="text" id="title" class="form-control mb-2" placeholder="Enter Title">
-<input type="file" id="file" class="form-control mb-2">
-<button onclick="submitFile()" class="btn btn-primary">Submit For Approval</button>
+<div class="card p-3 mb-4">
+<input type="text" id="title" class="form-control mb-2" placeholder="Title">
+<input type="text" id="link" class="form-control mb-2" placeholder="Paste Google Drive / PDF Link">
+<button onclick="submitResource()" class="btn btn-primary">Submit</button>
 </div>
 
 <div class="row" id="container"></div>
 
 </div>
-</div>
-</div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC3cP8uM9sbK2SbiYxwv343Sr_RL2Q5k30",
-  authDomain: "upload-8949e.firebaseapp.com",
-  projectId: "upload-8949e",
-  storageBucket: "upload-8949e.appspot.com",
-  messagingSenderId: "667330498876",
-  appId: "1:667330498876:web:8dffa69eb60d0c159f0e39",
-  measurementId: "G-501QNMK281"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
 };
 
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
 const db = getFirestore(app);
 
-let isAdmin = false;
+async function submitResource(){
 
-window.adminLogin = function(){
-const pass = prompt("Enter Admin Password");
-if(pass === "admin123"){
-isAdmin = true;
-document.getElementById("adminStatus").innerHTML = '<span class="admin-badge">ADMIN</span>';
-alert("Admin Login Success");
-}else{
-alert("Wrong Password");
-}
-}
+const title=document.getElementById("title").value;
+const link=document.getElementById("link").value;
 
-window.submitFile = async function(){
-
-const title = document.getElementById("title").value;
-const file = document.getElementById("file").files[0];
-
-if(!title || !file){
+if(!title || !link){
 alert("Fill all fields");
 return;
 }
 
-try{
-
-const storageRef = ref(storage, "pending/" + Date.now() + "_" + file.name);
-await uploadBytes(storageRef, file);
-const url = await getDownloadURL(storageRef);
-
-await addDoc(collection(db, "resources"), {
-title: title,
-fileURL: url,
-status: "pending"
+await addDoc(collection(db,"resources"),{
+title:title,
+link:link
 });
 
-alert("Uploaded Successfully (Waiting for Admin Approval)");
+alert("Submitted Successfully");
+
 document.getElementById("title").value="";
-document.getElementById("file").value="";
-}
-catch(error){
-alert(error.message);
-}
+document.getElementById("link").value="";
+
+loadResources();
 
 }
 
-window.showApproved = async function(){
+async function loadResources(){
 
-const container = document.getElementById("container");
+const container=document.getElementById("container");
 container.innerHTML="";
 
-const snapshot = await getDocs(collection(db,"resources"));
+const snapshot=await getDocs(collection(db,"resources"));
 
-snapshot.forEach((docSnap)=>{
-const data = docSnap.data();
-if(data.status === "approved"){
+snapshot.forEach(doc=>{
 
-container.innerHTML += `
+const data=doc.data();
+
+container.innerHTML+=`
 <div class="col-md-3 mb-3">
 <div class="card p-3">
 <h6>${data.title}</h6>
-<a href="${data.fileURL}" target="_blank" class="btn btn-primary btn-sm mt-2">View</a>
-<a href="${data.fileURL}" download class="btn btn-success btn-sm mt-2">Download</a>
+<a href="${data.link}" target="_blank" class="btn btn-primary btn-sm mt-2">View</a>
 </div>
-</div>`;
-}
-});
-}
-
-window.showPending = async function(){
-
-if(!isAdmin){
-alert("Admin Only Section");
-return;
-}
-
-const container = document.getElementById("container");
-container.innerHTML="";
-
-const snapshot = await getDocs(collection(db,"resources"));
-
-snapshot.forEach((docSnap)=>{
-const data = docSnap.data();
-if(data.status === "pending"){
-
-container.innerHTML += `
-<div class="col-md-4 mb-3">
-<div class="card p-3">
-<h6>${data.title}</h6>
-<button onclick="approve('${docSnap.id}')" class="btn btn-success btn-sm mt-2">Approve</button>
-<button onclick="reject('${docSnap.id}')" class="btn btn-danger btn-sm mt-2">Reject</button>
 </div>
-</div>`;
-}
+`;
+
 });
+
 }
 
-window.approve = async function(id){
-await updateDoc(doc(db,"resources",id),{
-status:"approved"
-});
-alert("Approved");
-showPending();
-}
+loadResources();
 
-window.reject = async function(id){
-await deleteDoc(doc(db,"resources",id));
-alert("Rejected & Deleted");
-showPending();
-}
-
-showApproved();
+window.submitResource=submitResource;
 
 </script>
 
 </body>
 </html>
-
-
-
-
-
-

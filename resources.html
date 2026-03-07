@@ -9,7 +9,7 @@
 <style>
 body{background:#f3f0ff}
 .sidebar{height:100vh;background:#6f42c1;color:white;padding:20px}
-.card{border-radius:15px}
+.card{border-radius:12px}
 .admin{background:red;color:white;padding:3px 8px;border-radius:10px;font-size:12px}
 </style>
 
@@ -36,13 +36,13 @@ body{background:#f3f0ff}
 
 <div class="col-md-10 p-4">
 
-<h3>Upload Notes</h3>
+<h3>Upload PDF</h3>
 
 <div class="card p-3 mb-4">
 
 <input id="title" class="form-control mb-2" placeholder="Title">
 
-<input id="link" class="form-control mb-2" placeholder="Google Drive / PDF Link">
+<input type="file" id="file" class="form-control mb-2" accept="application/pdf">
 
 <button class="btn btn-primary" onclick="submitFile()">Submit For Approval</button>
 
@@ -98,10 +98,9 @@ alert("Wrong Password");
 window.submitFile=async function(){
 
 const title=document.getElementById("title").value;
+const file=document.getElementById("file").files[0];
 
-const link=document.getElementById("link").value;
-
-if(!title||!link){
+if(!title||!file){
 
 alert("Fill all fields");
 
@@ -109,20 +108,32 @@ return;
 
 }
 
+const formData=new FormData();
+
+formData.append("file",file);
+
+formData.append("upload_preset","YOUR_UPLOAD_PRESET");
+
+const res=await fetch("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/auto/upload",{
+
+method:"POST",
+body:formData
+
+});
+
+const data=await res.json();
+
 await addDoc(collection(db,"resources"),{
 
 title:title,
 
-link:link,
+fileURL:data.secure_url,
 
 status:"pending"
 
 });
 
 alert("Submitted For Approval");
-
-document.getElementById("title").value="";
-document.getElementById("link").value="";
 
 }
 
@@ -148,7 +159,9 @@ container.innerHTML+=`
 
 <h6>${data.title}</h6>
 
-<a href="${data.link}" target="_blank" class="btn btn-primary btn-sm mt-2">View</a>
+<a href="${data.fileURL}" target="_blank" class="btn btn-primary btn-sm mt-2">View</a>
+
+<a href="${data.fileURL}" download class="btn btn-success btn-sm mt-2">Download</a>
 
 </div>
 

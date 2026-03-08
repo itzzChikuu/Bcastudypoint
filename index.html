@@ -19,7 +19,6 @@ font-family:'Poppins',sans-serif;
 body{
 color:white;
 min-height:100vh;
-overflow-x:hidden;
 }
 
 /* VIDEO BACKGROUND */
@@ -34,39 +33,47 @@ object-fit:cover;
 z-index:-2;
 }
 
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.65);
-z-index:-1;
-}
+/* TOP HEADER PATTI */
 
-/* NAVBAR */
-
-.navbar{
-position:sticky;
-top:0;
+.topbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 40px;
+padding:14px 40px;
+
 background:rgba(0,0,0,0.6);
 backdrop-filter:blur(10px);
+
 border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
-.logo{
+.brand{
 font-size:20px;
 font-weight:600;
 color:#38bdf8;
 }
 
+.menu{
+display:flex;
+gap:25px;
+}
+
+.menu a{
+text-decoration:none;
+color:white;
+font-size:14px;
+transition:0.3s;
+}
+
+.menu a:hover{
+color:#38bdf8;
+}
+
+/* LOGOUT */
+
 .logout-btn{
 padding:8px 20px;
-border-radius:20px;
+border-radius:18px;
 border:none;
 background:linear-gradient(135deg,#ef4444,#f97316);
 color:white;
@@ -80,53 +87,15 @@ box-shadow:0 0 10px rgba(239,68,68,0.6);
 h1{
 margin-top:30px;
 text-align:center;
-font-size:34px;
 }
 
 p{
 text-align:center;
 color:#e2ce5a;
-margin-top:6px;
+margin-top:8px;
 }
 
-/* DASHBOARD CARDS */
-
-.dashboard-cards{
-display:flex;
-justify-content:center;
-gap:25px;
-flex-wrap:wrap;
-margin-top:40px;
-}
-
-.card{
-width:200px;
-padding:25px;
-border-radius:18px;
-text-align:center;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-box-shadow:0 0 20px rgba(56,189,248,0.3);
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 0 30px rgba(56,189,248,0.8);
-}
-
-.card h3{
-font-size:28px;
-color:#38bdf8;
-margin-bottom:8px;
-}
-
-.card p{
-color:#ddd;
-font-size:14px;
-}
-
-/* FILTERS */
+/* DROPDOWNS */
 
 .filters{
 display:flex;
@@ -172,21 +141,6 @@ box-shadow:0 0 22px rgba(56,189,248,0.7);
 transform:scale(1.08);
 }
 
-/* RESOURCE BUTTON */
-
-.resource-btn{
-display:block;
-margin:40px auto;
-width:260px;
-text-align:center;
-padding:15px;
-background:linear-gradient(135deg,#7b2cbf,#9d4edd);
-border-radius:30px;
-text-decoration:none;
-color:white;
-box-shadow:0 0 20px rgba(157,78,221,0.6);
-}
-
 </style>
 </head>
 
@@ -194,9 +148,13 @@ box-shadow:0 0 20px rgba(157,78,221,0.6);
 
 <script>
 
+/* LOGIN PROTECTION */
+
 if(localStorage.getItem("loggedIn")!=="true"){
 window.location.replace("https://itzzchikuu.github.io/studypoint/");
 }
+
+/* LOGOUT */
 
 function logout(){
 localStorage.removeItem("loggedIn");
@@ -205,17 +163,24 @@ window.location.replace("https://itzzchikuu.github.io/studypoint/");
 
 </script>
 
+<!-- VIDEO -->
+
 <video autoplay muted loop playsinline id="bg-video">
 <source src="gridmotion.mp4" type="video/mp4">
 </video>
 
-<div class="overlay"></div>
+<!-- TOP BAR -->
 
-<!-- NAVBAR -->
+<div class="topbar">
 
-<div class="navbar">
+<div class="brand">🎓 BCAStudyPoint</div>
 
-<div class="logo">🎓 BCAStudyPoint</div>
+<div class="menu">
+<a href="#">Home</a>
+<a href="#">Notes</a>
+<a href="#">Papers</a>
+<a href="#">Videos</a>
+</div>
 
 <button class="logout-btn" onclick="logout()">Logout</button>
 
@@ -223,32 +188,6 @@ window.location.replace("https://itzzchikuu.github.io/studypoint/");
 
 <h1>All BCA Resources. One Smart Hub.</h1>
 <p>Semester-wise • Subject-wise • Free PDFs</p>
-
-<!-- DASHBOARD CARDS -->
-
-<div class="dashboard-cards">
-
-<div class="card">
-<h3>24+</h3>
-<p>Subjects</p>
-</div>
-
-<div class="card">
-<h3>100+</h3>
-<p>Study Notes</p>
-</div>
-
-<div class="card">
-<h3>60+</h3>
-<p>Past Papers</p>
-</div>
-
-<div class="card">
-<h3>40+</h3>
-<p>Video Lectures</p>
-</div>
-
-</div>
 
 <!-- DROPDOWNS -->
 
@@ -276,9 +215,21 @@ window.location.replace("https://itzzchikuu.github.io/studypoint/");
 
 </div>
 
-<a href="resources.html" class="resource-btn">
+<div style="text-align:center;margin-top:40px;">
+<a href="resources.html"
+style="padding:15px 35px;
+background:linear-gradient(135deg,#7b2cbf,#9d4edd);
+border-radius:30px;
+color:white;
+text-decoration:none;
+font-size:16px;
+box-shadow:0 0 20px rgba(157,78,221,0.6);">
+
 📂 Upload and View More Resources
 </a>
+</div>
+
+<!-- ACTION BUTTONS -->
 
 <div class="actions" id="actions">
 <button onclick="openPDF()">📖 Open PDF</button>
@@ -286,6 +237,8 @@ window.location.replace("https://itzzchikuu.github.io/studypoint/");
 </div>
 
 <script>
+
+/* SUBJECT DATA */
 
 const subjectsBySem={
 sem1:[
@@ -311,12 +264,15 @@ sem4:[
 {value:"wt",text:"Web Technology"},
 {value:"python",text:"Python Programming"}
 ]
+
 };
 
 const semester=document.getElementById("semester");
 const subject=document.getElementById("subject");
 const resource=document.getElementById("resource");
 const actions=document.getElementById("actions");
+
+/* LOAD SUBJECTS */
 
 semester.addEventListener("change",()=>{
 
@@ -354,13 +310,17 @@ actions.style.display="block";
 
 }
 
+/* PDF ACTIONS */
+
 function openPDF(){
-alert("PDF link yaha add karo");
+alert("PDF link yaha add kar sakte ho");
 }
 
 function downloadPDF(){
-alert("Download link yaha add karo");
+alert("Download link yaha add kar sakte ho");
 }
+
+/* YOUTUBE */
 
 const youtubeLinks={
 sem1:{
@@ -395,3 +355,4 @@ window.open(link,"_blank");
 </body>
 </html>
 ```
+
